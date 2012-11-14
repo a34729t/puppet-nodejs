@@ -1,4 +1,4 @@
-# Puppet Node.js Module
+# Puppet Node.js Module (YUM version)
 
 Uses nave to install node 
 
