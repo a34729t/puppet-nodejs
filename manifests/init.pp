@@ -6,18 +6,26 @@ class nodejs ( $version, $logoutput = 'on_failure' ) {
     }
   }
 
-  package { 'libssl-dev':
+  package { 'openssl-devel':
     ensure => present,
   }
-  package { 'build-essential':
+  package { 'make':
     ensure => present,
   }
-
+  package { 'glibc-devel':
+    ensure => present,
+  }
+  package { 'gcc':
+    ensure => present,
+  } 
+  package { 'gcc-c++':
+    ensure => present,
+  }
   # use nave, yo
   exec { 'nave' :
     command     => "bash -c \"\$(curl -s 'https://raw.github.com/isaacs/nave/master/nave.sh') usemain $version \"",
     path        => [ "/usr/local/bin", "/bin" , "/usr/bin" ],
-    require     => [ Package[ 'curl' ], Package[ 'libssl-dev' ], Package[ 'build-essential' ] ],
+    require     => [ Package[ 'curl' ], Package[ 'openssl-devel' ], Package[ 'make' ], Package[ 'glibc-devel' ], Package[ 'gcc' ], Package[ 'gcc-c++'] ],
     environment => [ 'HOME=""', 'PREFIX=/usr/local/lib/node', 'NAVE_JOBS=1' ],
     logoutput   => $logoutput,
     # btw, this takes forever....
@@ -26,4 +34,3 @@ class nodejs ( $version, $logoutput = 'on_failure' ) {
   }
 
 }
-
